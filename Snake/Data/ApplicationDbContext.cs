@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Snake.Models;
 
 namespace Snake.Data
 {
@@ -12,5 +13,6 @@ namespace Snake.Data
             : base(options)
         {
         }
+        public DbSet<Snake.Models.Player> Player { get; set; }
     }
 }
