@@ -20,15 +20,8 @@ namespace Snake.Controllers
 
         public IActionResult Privacy()
         {
-            //return Content("Authorized");
             return View();
         }
-
-        //public IActionResult Index()
-        //{
-        //    //return Content("Authorized");
-        //    return View();
-        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
