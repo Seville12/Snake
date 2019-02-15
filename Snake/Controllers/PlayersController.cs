@@ -92,10 +92,15 @@ namespace Snake.Controllers
             {
                 return NotFound();
             }
-            player.Description = playerModel.Description;
-            _context.Update(player);
-         _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                player.Description = playerModel.Description;
+                _context.Update(player);
+                _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+
+            }
+            return View(player);
         }
 
         // GET: Players/Delete/5
