@@ -96,6 +96,7 @@ namespace Snake.Controllers
             return RedirectToAction("Users");
         }
 
+        [HttpGet]
         public async Task<IActionResult> ChangePassword(string id)
         {
             User user = await _userManager.FindByIdAsync(id);
@@ -107,7 +108,7 @@ namespace Snake.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
