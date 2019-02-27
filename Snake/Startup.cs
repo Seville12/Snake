@@ -75,10 +75,16 @@ namespace Snake
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            app.UseStaticFiles();
+
+            app.UseDeveloperExceptionPage();
+
+            app.UseStatusCodePagesWithReExecute("/Error/Error", "?statusCode={0}");
 
             app.UseMvc(routes =>
             {
@@ -92,3 +98,4 @@ namespace Snake
         }
     }
 }
+
