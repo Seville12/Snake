@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DAL.Models;
+using DAL.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Snake.Models;
@@ -9,27 +11,39 @@ using Snake.Models.ViewModels;
 
 namespace Snake.Controllers
 {
+    /// <summary>
+    /// Контроллер авторизации и регистрации пользователя
+    /// </summary>
     public class AccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly UserManager<DUser> _userManager;
+        private readonly SignInManager<DUser> _signInManager;
+        private readonly IUserDalService _userService;
+        public AccountController(UserManager<DUser> userManager, SignInManager<DUser> signInManager, IUserDalService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userService = userService;
         }
+
+        /// <summary>
+        /// Получение страницы регистрации пользователя
+        /// </summary>
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+
+        /// <summary>
+        /// Регистрация пользователя
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                User user = new User { Email = model.Email, UserName = model.Email };
+                DUser user = new DUser { Email = model.Email, UserName = model.Email };
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -48,20 +62,25 @@ namespace Snake.Controllers
             }
             return View(model);
         }
+        /// <summary>
+        /// Страница залогинивания пользователя
+        /// </summary>
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
 
+        /// <summary>
+        /// Залогинивания пользователя
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result =
-                    await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
                     // проверяем, принадлежит ли URL приложению
@@ -82,6 +101,9 @@ namespace Snake.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Выход из авторизованного пространства 
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()

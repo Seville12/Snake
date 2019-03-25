@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,23 +14,31 @@ namespace Snake.Controllers
     [Authorize(Roles = "admin")]
     public class UsersController : Controller
     {
-        UserManager<User> _userManager;
+        UserManager<DUser> _userManager;
 
-        public UsersController(UserManager<User> userManager)
+        public UsersController(UserManager<DUser> userManager)
         {
             _userManager = userManager;
         }
-
+        
+        /// <summary>
+        /// Список пользователей
+        /// </summary>
+        [HttpPost]
         public IActionResult Users() => View(_userManager.Users.ToList());
 
+       [HttpGet]
         public IActionResult Create() => View();
 
+        /// <summary>
+        /// Создание пользователя
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> Create(CreateUserViewModel model)
         {
             if (ModelState.IsValid)
             {
-                User user = new User { Email = model.Email, UserName = model.Email };
+                DUser user = new DUser { Email = model.Email, UserName = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -46,9 +55,15 @@ namespace Snake.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Страница редактирования пользователя
+        /// </summary>
+        /// <param name="id">ID Пользователя</param>
+        /// <returns></returns>
+        [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            User user = await _userManager.FindByIdAsync(id);
+            DUser user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -57,12 +72,15 @@ namespace Snake.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Редактирование пользователя
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             if (ModelState.IsValid)
             {
-                User user = await _userManager.FindByIdAsync(model.Id);
+                DUser user = await _userManager.FindByIdAsync(model.Id);
                 if (user != null)
                 {
                     user.Email = model.Email;
@@ -85,10 +103,15 @@ namespace Snake.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Удаление пользователя по ID
+        /// </summary>
+        /// <param name="id">ID Пользователя</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Delete(string id)
         {
-            User user = await _userManager.FindByIdAsync(id);
+            DUser user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
                 IdentityResult result = await _userManager.DeleteAsync(user);
@@ -96,10 +119,13 @@ namespace Snake.Controllers
             return RedirectToAction("Users");
         }
 
+        /// <summary>
+        /// Страница смены пароля
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> ChangePassword(string id)
         {
-            User user = await _userManager.FindByIdAsync(id);
+            DUser user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -108,12 +134,15 @@ namespace Snake.Controllers
             return View(model);
         }
 
-        [ValidateAntiForgeryToken]
+        /// <summary>
+        /// Cмена пароля
+        /// </summary>
+        [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
-                User user = await _userManager.FindByIdAsync(model.Id);
+                DUser user = await _userManager.FindByIdAsync(model.Id);
                 if (user != null)
                 {
                     IdentityResult result =

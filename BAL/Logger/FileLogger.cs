@@ -2,10 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Snake.Models.Logger
+namespace BAL.Logger
 {
     public class FileLogger : ILogger
     {

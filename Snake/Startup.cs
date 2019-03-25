@@ -10,13 +10,18 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Snake.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.IO;
-using Snake.Models.Logger;
 using Snake.Models;
+using DAL.Data;
+using DAL.Models;
+using DAL.Services;
+using BAL.Data;
+using Snake.Services;
+using Snake.Services.Implementation;
+using BAL.Logger;
 
 namespace Snake
 {
@@ -39,11 +44,16 @@ namespace Snake
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<User, IdentityRole>()
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPlayerService, PlayerService>();
+            services.AddBusinessLibraryCollection(Configuration);
+            services.AddDataLibraryCollection(Configuration);
+
+
+            services.AddIdentity<DUser, IdentityRole>()
               .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+            
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {

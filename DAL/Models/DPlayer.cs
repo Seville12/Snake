@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Snake.Models
+namespace DAL.Models
 {
-    public class Player
+    /// <summary>
+    /// Персонаж
+    /// </summary>
+    public class DPlayer
     {
         /// <summary>
         /// Идентификатор персонажа
@@ -15,7 +17,7 @@ namespace Snake.Models
         /// Имя персонажа
         /// </summary>
         public string Name { get; set; }
-        /// <summary>
+         /// <summary>
         /// Описание персонажа
         /// </summary>
         public string Description { get; set; }

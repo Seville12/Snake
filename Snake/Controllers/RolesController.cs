@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,15 +15,24 @@ namespace Snake.Controllers
     public class RolesController : Controller
     {
         RoleManager<IdentityRole> _roleManager;
-        UserManager<User> _userManager;
-        public RolesController(RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
+        UserManager<DUser> _userManager;
+        public RolesController(RoleManager<IdentityRole> roleManager, UserManager<DUser> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
         }
+        /// <summary>
+        /// Список ролей
+        /// </summary>
+        [HttpGet]
         public IActionResult Roles() => View(_roleManager.Roles.ToList());
 
+        [HttpGet]
         public IActionResult Create() => View();
+
+        /// <summary>
+        /// Созадние роли
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> Create(string name)
         {
@@ -44,6 +54,9 @@ namespace Snake.Controllers
             return View(name);
         }
 
+        /// <summary>
+        /// Удаление роли
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
@@ -57,10 +70,14 @@ namespace Snake.Controllers
 
         public IActionResult UserList() => View(_userManager.Users.ToList());
 
+        /// <summary>
+        /// Вызов страницы редактирования роли и передача параметров 
+        /// </summary>
+        [HttpGet]
         public async Task<IActionResult> Edit(string userId)
         {
             // получаем пользователя
-            User user = await _userManager.FindByIdAsync(userId);
+            DUser user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
                 // получем список ролей пользователя
@@ -78,11 +95,17 @@ namespace Snake.Controllers
 
             return NotFound();
         }
+
+        /// <summary>
+        /// Реадктирование роли у пользователя
+        /// </summary>
+        /// <param name="roles"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Edit(string userId, List<string> roles)
         {
             // получаем пользователя
-            User user = await _userManager.FindByIdAsync(userId);
+            DUser user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
                 // получем список ролей пользователя
