@@ -16,10 +16,10 @@ namespace Snake.Services.Implementation
         {
             this.playerService = playerService;
         }
-        public async Task<int> CreatePlayer(Player player, string operation)
+        public async Task<int> CreatePlayer(Player player)
         {
             var playerV = player.Adapt<BPlayer>();
-            await this.playerService.CreatePlayer(playerV, operation);
+            await this.playerService.CreatePlayer(playerV);
             return playerV.Id;
         }
 
@@ -28,12 +28,12 @@ namespace Snake.Services.Implementation
             return this.playerService.DeletePlayerAsync(id);
         }
 
-        //public async Task<int> EditPlayer(Player player)
-        //{
-        //    var playerV = player.Adapt<BPlayer>();
-        //    await this.playerService.CreatePlayer(playerV);
-        //    return playerV.Id;
-        //}
+        public async Task<int> EditPlayer(Player player)
+        {
+            var playerV = player.Adapt<BPlayer>();
+            await this.playerService.CreatePlayer(playerV);
+            return playerV.Id;
+        }
 
         public async Task<Player> GetDetails(int id)
         {

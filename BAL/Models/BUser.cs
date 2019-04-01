@@ -5,6 +5,9 @@ using System.Text;
 
 namespace BAL.Models
 {
+    /// <summary>
+    /// Пользователь 
+    /// </summary>
     public class BUser : DUser
     {
     }

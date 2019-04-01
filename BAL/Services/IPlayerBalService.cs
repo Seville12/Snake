@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace BAL.Services
 {
+    /// <summary>
+    /// Интерфейс персонажа
+    /// </summary>
     public interface IPlayerBalService
     {
         /// <summary>
@@ -23,11 +26,11 @@ namespace BAL.Services
         /// Создание персонажа / редактирование персонажа
         /// </summary>
         /// <param name="player">Персонаж</param>
-        Task CreatePlayer(BPlayer player, string operation);
+        Task CreatePlayer(BPlayer player);
         /// <summary>
         /// Редактирование персонажа
         /// </summary>
-        //Task EditPlayer(BPlayer player);
+        Task EditPlayer(BPlayer player);
         /// <summary>
         /// Удаление персонажа
         /// </summary>

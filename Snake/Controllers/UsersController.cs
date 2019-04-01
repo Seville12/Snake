@@ -24,7 +24,7 @@ namespace Snake.Controllers
         /// <summary>
         /// Список пользователей
         /// </summary>
-        [HttpPost]
+       [HttpGet]
         public IActionResult Users() => View(_userManager.Users.ToList());
 
        [HttpGet]

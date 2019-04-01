@@ -40,25 +40,18 @@ namespace BAL.Services.Implementation
             return players;
         }
 
-        public async Task CreatePlayer(BPlayer player, string operation)
+        public async Task CreatePlayer(BPlayer player)
         {
             var playerD = player.Adapt<DPlayer>();
-            switch (operation)
-            {
-                case "add":
-                    await this.playerService.CreatePlayer(playerD);
-                    break;
-                case "update":
-                    await this.playerService.CreatePlayer(playerD);
-                    break;
-            }
+            await this.playerService.CreatePlayer(playerD);
+
         }
 
-        //public async Task EditPlayer(BPlayer player)
-        //{
-        //    var playerD = player.Adapt<DPlayer>();
-        //    await this.playerService.EditPlayer(playerD);
-        //}
+        public async Task EditPlayer(BPlayer player)
+        {
+            var playerD = player.Adapt<DPlayer>();
+            await this.playerService.EditPlayer(playerD);
+        }
     }
 }
 

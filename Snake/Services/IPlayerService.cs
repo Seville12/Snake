@@ -25,11 +25,11 @@ namespace Snake.Services
         /// Создание персонажа
         /// </summary>
         /// <param name="player">Персонаж</param>
-        Task<int> CreatePlayer(Player player, string operation);
+        Task<int> CreatePlayer(Player player);
         /// <summary>
         /// Редактирование персонажа
         /// </summary>
-        //Task<int> EditPlayer(Player player);
+        Task<int> EditPlayer(Player player);
         /// <summary>
         /// Удаление персонажа
         /// </summary>

@@ -36,16 +36,16 @@ namespace Snake.Controllers
         /// <summary>
         /// Получение данных о персонаже
         /// </summary>
-        /// <param name="Id">Id Персонажа</param>
+        /// <param name="id">Id Персонажа</param>
         [HttpGet]
-        public async Task<IActionResult> Details(int? Id)
+        public async Task<IActionResult> Details(int? id)
         {
-            if (Id == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var player = await _playerService.GetDetails((int) Id);
+            var player = await _playerService.GetDetails((int) id);
             if (player == null)
             {
                 return NotFound();
@@ -73,7 +73,7 @@ namespace Snake.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _playerService.CreatePlayer(player, "add");
+                await _playerService.CreatePlayer(player);
                 return RedirectToAction(nameof(Index));
             }
             return View(player);
@@ -114,7 +114,7 @@ namespace Snake.Controllers
             }
             if (ModelState.IsValid)
             {
-                await _playerService.CreatePlayer(player, "update");
+                await _playerService.EditPlayer(player);
                 return RedirectToAction(nameof(Index));
              }
             return View(player);

@@ -1,12 +1,12 @@
 ﻿using DAL.Data;
 using DAL.Models;
-using DAL.Services;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Snake.Services.Implementation
+namespace DAL.Services.Implementation
 {
     internal class UserDalService : IUserDalService
     {
@@ -18,6 +18,11 @@ namespace Snake.Services.Implementation
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
+        }
+
+        public async Task<IdentityResult> Register(DUser user, string pass)
+        {
+            return await _userManager.CreateAsync(user, pass);
         }
     }
 }
