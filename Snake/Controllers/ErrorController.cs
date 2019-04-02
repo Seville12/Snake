@@ -6,9 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Snake.Controllers
 {
-    /// <summary>
-    /// Контроллер обработчика ошибок
-    /// </summary>
     public class ErrorController : Controller
     {
         public IActionResult Error(int? statusCode = null)
