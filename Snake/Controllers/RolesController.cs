@@ -11,6 +11,9 @@ using Snake.Models.ViewModels;
 
 namespace Snake.Controllers
 {
+    /// <summary>
+    /// Контроллер ролей пользователя
+    /// </summary>
     [Authorize(Roles = "admin")]
     public class RolesController : Controller
     {

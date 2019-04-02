@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BAL.Models;
@@ -31,13 +32,7 @@ namespace BAL.Services.Implementation
         public async Task<IList<BPlayer>> GetPlayers(string Name)
         {
             var playerD = await this.playerService.GetPlayers(Name);
-            var players = new List<BPlayer>();
-            foreach (var el in playerD)
-            {
-                var player = el.Adapt<BPlayer>();
-                players.Add(player);
-            }
-            return players;
+            return playerD.Select(el => (el.Adapt<BPlayer>())).ToList();
         }
 
         public async Task CreatePlayer(BPlayer player)

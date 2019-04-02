@@ -15,6 +15,8 @@ namespace BAL.Services
         /// <summary>
         /// регистрация пользователя
         /// </summary>
+        /// /// <param name="user">пользователь</param>
+        /// <param name="pass">пароль</param>
         Task<IdentityResult> Register(BUser user, string pass);
     }
 }

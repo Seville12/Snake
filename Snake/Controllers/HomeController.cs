@@ -9,6 +9,9 @@ using Snake.Models;
 
 namespace Snake.Controllers
 {
+    /// <summary>
+    /// Основной контроллер (контроллер главной страницы)
+    /// </summary>
     [Authorize]
     public class HomeController : Controller
     {
