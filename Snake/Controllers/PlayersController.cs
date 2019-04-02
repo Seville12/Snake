@@ -152,10 +152,5 @@ namespace Snake.Controllers
             await _playerService.DeletePlayerAsync(id);
             return RedirectToAction(nameof(Index));
         }
-
-        //private bool PlayerExists(int id)
-        //{
-        //    return _context.DPlayer.Any(e => e.Id == id);
-        //}
     }
 }

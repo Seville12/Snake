@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Snake.Models;
 using Snake.Models.ViewModels;
+using Snake.Services;
 
 namespace Snake.Controllers
 {
@@ -18,8 +19,8 @@ namespace Snake.Controllers
     {
         private readonly UserManager<DUser> _userManager;
         private readonly SignInManager<DUser> _signInManager;
-        private readonly IUserDalService _userService;
-        public AccountController(UserManager<DUser> userManager, SignInManager<DUser> signInManager, IUserDalService userService)
+        private readonly IUserService _userService;
+        public AccountController(UserManager<DUser> userManager, SignInManager<DUser> signInManager, IUserService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -43,7 +44,7 @@ namespace Snake.Controllers
         {
             if (ModelState.IsValid)
             {
-                DUser user = new DUser { Email = model.Email, UserName = model.Email };
+                User user = new User { Email = model.Email, UserName = model.Email };
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
