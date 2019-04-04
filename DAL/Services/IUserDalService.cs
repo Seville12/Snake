@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace DAL.Services
 {
     /// <summary>
-    /// Интерфейс пользователя
+    /// реализовывает интерфейс пользователя
     /// </summary>
     public interface IUserDalService
     {

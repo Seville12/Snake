@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Snake.Services
 {
     /// <summary>
-    /// Интерфейс персонажа
+    /// реализовывает интерфейс персонажа
     /// </summary>
     public interface IPlayerService
     {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace BAL.Services
 {
     /// <summary>
-    /// Интерфейс персонажа
+    /// реализовывает интерфейс персонажа
     /// </summary>
     public interface IPlayerBalService
     {

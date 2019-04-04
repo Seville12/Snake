@@ -6,7 +6,7 @@ using System.Text;
 namespace DAL.Models
 {
     /// <summary>
-    /// Пользователь
+    /// Пользователь 
     /// </summary>
     public class DUser : IdentityUser
     {

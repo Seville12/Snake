@@ -23,7 +23,7 @@ namespace DAL.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<DPlayer>().HasKey(m => m.Id);
-            //builder.Entity<UserData>().HasKey(m => m.Id);
+            builder.Entity<DUser>().HasKey(m => m.Id);
             base.OnModelCreating(builder);
         }
     }

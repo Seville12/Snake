@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Snake.Services
 {
     /// <summary>
-    /// Интерфейс пользователя
+    /// реализовывает интерфейс пользователя
     /// </summary>
     public interface IUserService
     {

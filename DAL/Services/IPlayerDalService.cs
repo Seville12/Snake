@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DAL.Services
 {
     /// <summary>
-    /// Интерфейс персонажа
+    /// реализовывает интерфейс персонажа
     /// </summary>
     public interface IPlayerDalService
     {

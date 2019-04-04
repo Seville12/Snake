@@ -17,10 +17,10 @@ namespace Snake.Controllers
     /// </summary>
     public class AccountController : Controller
     {
-        private readonly UserManager<DUser> _userManager;
-        private readonly SignInManager<DUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IUserService _userService;
-        public AccountController(UserManager<DUser> userManager, SignInManager<DUser> signInManager, IUserService userService)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IUserService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;

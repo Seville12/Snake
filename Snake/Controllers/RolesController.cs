@@ -18,8 +18,8 @@ namespace Snake.Controllers
     public class RolesController : Controller
     {
         RoleManager<IdentityRole> _roleManager;
-        UserManager<DUser> _userManager;
-        public RolesController(RoleManager<IdentityRole> roleManager, UserManager<DUser> userManager)
+        UserManager<User> _userManager;
+        public RolesController(RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -80,7 +80,7 @@ namespace Snake.Controllers
         public async Task<IActionResult> Edit(string userId)
         {
             // получаем пользователя
-            DUser user = await _userManager.FindByIdAsync(userId);
+            User user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
                 // получем список ролей пользователя
@@ -108,7 +108,7 @@ namespace Snake.Controllers
         public async Task<IActionResult> Edit(string userId, List<string> roles)
         {
             // получаем пользователя
-            DUser user = await _userManager.FindByIdAsync(userId);
+            User user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
                 // получем список ролей пользователя
