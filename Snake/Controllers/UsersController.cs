@@ -17,9 +17,9 @@ namespace Snake.Controllers
     [Authorize(Roles = "admin")]
     public class UsersController : Controller
     {
-        UserManager<DUser> _userManager;
+        UserManager<User> _userManager;
 
-        public UsersController(UserManager<DUser> userManager)
+        public UsersController(UserManager<User> userManager)
         {
             _userManager = userManager;
         }
@@ -41,7 +41,7 @@ namespace Snake.Controllers
         {
             if (ModelState.IsValid)
             {
-                DUser user = new DUser { Email = model.Email, UserName = model.Email };
+                User user = new User { Email = model.Email, UserName = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -66,7 +66,7 @@ namespace Snake.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            DUser user = await _userManager.FindByIdAsync(id);
+            User user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -83,7 +83,7 @@ namespace Snake.Controllers
         {
             if (ModelState.IsValid)
             {
-                DUser user = await _userManager.FindByIdAsync(model.Id);
+                User user = await _userManager.FindByIdAsync(model.Id);
                 if (user != null)
                 {
                     user.Email = model.Email;
@@ -114,7 +114,7 @@ namespace Snake.Controllers
         [HttpPost]
         public async Task<ActionResult> Delete(string id)
         {
-            DUser user = await _userManager.FindByIdAsync(id);
+            User user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
                 IdentityResult result = await _userManager.DeleteAsync(user);
@@ -128,7 +128,7 @@ namespace Snake.Controllers
         [HttpGet]
         public async Task<IActionResult> ChangePassword(string id)
         {
-            DUser user = await _userManager.FindByIdAsync(id);
+            User user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -145,7 +145,7 @@ namespace Snake.Controllers
         {
             if (ModelState.IsValid)
             {
-                DUser user = await _userManager.FindByIdAsync(model.Id);
+                User user = await _userManager.FindByIdAsync(model.Id);
                 if (user != null)
                 {
                     IdentityResult result =
