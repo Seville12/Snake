@@ -9,20 +9,26 @@ using Snake.Models;
 
 namespace Snake.Controllers
 {
+    /// <summary>
+    /// Основной контроллер (контроллер главной страницы)
+    /// </summary>
     [Authorize]
     public class HomeController : Controller
     {
         [AllowAnonymous]
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpGet]
         public IActionResult Privacy()
         {
             return View();
         }
 
+        [HttpGet]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

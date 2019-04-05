@@ -1,16 +1,17 @@
 ﻿using DAL.Models;
+using Mapster;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Snake.Models
+namespace BAL.Models
 {
     /// <summary>
     /// Пользователь 
     /// </summary>
-    public class User : IdentityUser
+    public class BUser : IdentityUser
     {
+       
     }
 }

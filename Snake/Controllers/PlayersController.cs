@@ -2,32 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DAL.Data;
+using DAL.Models;
+using DAL.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Snake.Data;
 using Snake.Models;
+using Snake.Services;
 
 namespace Snake.Controllers
 {
     [Authorize]
     public class PlayersController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
-        public PlayersController(ApplicationDbContext context)
+        private readonly IPlayerService _playerService;
+        public PlayersController(IPlayerService playerService)
         {
-            _context = context;
+            _playerService = playerService;
         }
 
-        // GET: Players
+        /// <summary>
+        /// Список персонажей
+        /// </summary>
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Player.ToListAsync());
+            return View( "Index", await this._playerService.GetPlayers(HttpContext.User.Identity.Name));
         }
 
         // GET: Players/Details/5
+        /// <summary>
+        /// Получение данных о персонаже
+        /// </summary>
+        /// <param name="id">Id Персонажа</param>
+        [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,8 +45,7 @@ namespace Snake.Controllers
                 return NotFound();
             }
 
-            var player = await _context.Player
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var player = await _playerService.GetDetails((int) id);
             if (player == null)
             {
                 return NotFound();
@@ -45,23 +54,26 @@ namespace Snake.Controllers
             return View(player);
         }
 
+
         // GET: Players/Create
+        /// <summary>
+        /// Получение старницы создания персонажа
+        /// </summary>
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Players/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Создание нового пользователя и запись в БД
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Player player)
+        public async Task<IActionResult>Create(Player player)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(player);
-                await _context.SaveChangesAsync();
+                await _playerService.CreatePlayer(player);
                 return RedirectToAction(nameof(Index));
             }
             return View(player);
@@ -69,6 +81,10 @@ namespace Snake.Controllers
 
         
         // GET: Players/Edit/5
+        /// <summary>
+        /// Получение страницы редактирования персонажа
+        /// </summary>
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,7 +92,7 @@ namespace Snake.Controllers
                 return NotFound();
             }
 
-            var player = await _context.Player.FindAsync(id);
+            var player = await _playerService.GetDetails((int)id);
             if (player == null)
             {
                 return NotFound();
@@ -84,26 +100,31 @@ namespace Snake.Controllers
             return View(player);
         }
 
+        /// <summary>
+        /// Редактирование данных персонажа
+        /// </summary>
+        /// <param name="id">Id Персонажа</param>
+        /// <returns></returns>
         [HttpPost]
-        public ActionResult Edit(int id, [Bind("Id,Description")] PlayerViewModel playerModel)
+        public async Task<ActionResult> Edit(int id, Player player)
         {
-            Player player =  _context.Player.Find(playerModel.Id);
             if (id != player.Id)
             {
                 return NotFound();
             }
             if (ModelState.IsValid)
             {
-                player.Description = playerModel.Description;
-                _context.Update(player);
-                _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-
-            }
+                await _playerService.EditPlayer(player);
+                return RedirectToAction(nameof(Index));
+             }
             return View(player);
         }
 
         // GET: Players/Delete/5
+        /// <summary>
+        /// Получение страницы персонажа для удаления
+        /// </summary>
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -111,8 +132,7 @@ namespace Snake.Controllers
                 return NotFound();
             }
 
-            var player = await _context.Player
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var player = await _playerService.GetDetails((int)id);
             if (player == null)
             {
                 return NotFound();
@@ -122,19 +142,15 @@ namespace Snake.Controllers
         }
 
         // POST: Players/Delete/5
+        /// <summary>
+        /// Удаление персонажа
+        /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var player = await _context.Player.FindAsync(id);
-            _context.Player.Remove(player);
-            await _context.SaveChangesAsync();
+            await _playerService.DeletePlayerAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool PlayerExists(int id)
-        {
-            return _context.Player.Any(e => e.Id == id);
         }
     }
 }

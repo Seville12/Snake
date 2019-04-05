@@ -2,28 +2,43 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DAL.Models;
+using DAL.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Snake.Models;
 using Snake.Models.ViewModels;
+using Snake.Services;
 
 namespace Snake.Controllers
 {
+    /// <summary>
+    /// Контроллер авторизации и регистрации пользователя
+    /// </summary>
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly IUserService _userService;
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IUserService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userService = userService;
         }
+
+        /// <summary>
+        /// Получение страницы регистрации пользователя
+        /// </summary>
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+
+        /// <summary>
+        /// Регистрация пользователя
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -48,20 +63,25 @@ namespace Snake.Controllers
             }
             return View(model);
         }
+        /// <summary>
+        /// Страница залогинивания пользователя
+        /// </summary>
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
 
+        /// <summary>
+        /// Залогинивания пользователя
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result =
-                    await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
                     // проверяем, принадлежит ли URL приложению
@@ -82,6 +102,9 @@ namespace Snake.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Выход из авторизованного пространства 
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()

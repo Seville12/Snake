@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,9 @@ using Snake.Models.ViewModels;
 
 namespace Snake.Controllers
 {
+    /// <summary>
+    /// Контроллер ролей пользователя
+    /// </summary>
     [Authorize(Roles = "admin")]
     public class RolesController : Controller
     {
@@ -20,9 +24,18 @@ namespace Snake.Controllers
             _roleManager = roleManager;
             _userManager = userManager;
         }
+        /// <summary>
+        /// Список ролей
+        /// </summary>
+        [HttpGet]
         public IActionResult Roles() => View(_roleManager.Roles.ToList());
 
+        [HttpGet]
         public IActionResult Create() => View();
+
+        /// <summary>
+        /// Созадние роли
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> Create(string name)
         {
@@ -44,6 +57,9 @@ namespace Snake.Controllers
             return View(name);
         }
 
+        /// <summary>
+        /// Удаление роли
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
@@ -57,6 +73,10 @@ namespace Snake.Controllers
 
         public IActionResult UserList() => View(_userManager.Users.ToList());
 
+        /// <summary>
+        /// Вызов страницы редактирования роли и передача параметров 
+        /// </summary>
+        [HttpGet]
         public async Task<IActionResult> Edit(string userId)
         {
             // получаем пользователя
@@ -78,6 +98,12 @@ namespace Snake.Controllers
 
             return NotFound();
         }
+
+        /// <summary>
+        /// Реадктирование роли у пользователя
+        /// </summary>
+        /// <param name="roles"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Edit(string userId, List<string> roles)
         {
